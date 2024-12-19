@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weatherapp/Repository/weather_repository.dart';
 import 'package:weatherapp/shared/constant.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -35,7 +36,12 @@ class HomeScreen extends StatelessWidget {
                 location: "Lagos",
                 temp: 33,
                 weatherType: "Rainy",
-              )
+              ),
+              FutureBuilder(
+                  future: WeatherRepository().fetchCurrentWeather(),
+                  builder: (_, snapshot) {
+                    return SizedBox();
+                  })
             ],
           ),
         ),
