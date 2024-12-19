@@ -4,6 +4,7 @@ import 'package:weatherapp/shared/routes/route_strings.dart';
 import 'package:weatherapp/shared/routes/router.dart';
 
 void main() async {
+  ///Figma link: https://www.figma.com/design/LpqCQZ7D625SHOtoTZ6VDy/Ideate-Design---Weather-app-(Community)?node-id=102-7&t=423TrESatD6gwN9u-1
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   runApp(const MyApp());
