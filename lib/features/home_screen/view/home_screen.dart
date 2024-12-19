@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weatherapp/Repository/weather_repository.dart';
+import 'package:weatherapp/shared/assets.dart';
 import 'package:weatherapp/shared/constant.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -114,7 +115,27 @@ class WeatherCard extends StatelessWidget {
             ),
           ),
           Column(
-            children: [Text(temp.toString())],
+            children: [
+              Image.asset(
+                temp > 20
+                    ? AppAssets.sunnyPng
+                    : temp > 5 && temp < 15
+                        ? AppAssets.drizzlingPng
+                        : temp < 0
+                            ? AppAssets.snowPng
+                            : AppAssets.stormyPng,
+                height: 100,
+                width: 100,
+              ),
+              Text(
+                "${temp.toInt().toString()}℃",
+                style: baseStyle.copyWith(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.white,
+                ),
+              )
+            ],
           )
         ],
       ),
