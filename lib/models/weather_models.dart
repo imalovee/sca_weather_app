@@ -3,15 +3,15 @@ class WeatherData {
   final List<Weather>? weather;
   final String? base;
   final Main? main;
-  final int? visibility;
+  final num? visibility;
   final Wind? wind;
   final Clouds? clouds;
-  final int? dt;
+  final num? dt;
   final Sys? sys;
-  final int? timezone;
-  final int? id;
+  final num? timezone;
+  final num? id;
   final String? name;
-  final int? cod;
+  final num? cod;
 
   WeatherData({
     this.coord,
@@ -68,7 +68,7 @@ class WeatherData {
 }
 
 class Clouds {
-  final int? all;
+  final num? all;
 
   Clouds({
     this.all,
@@ -108,10 +108,10 @@ class Main {
   final double? feelsLike;
   final double? tempMin;
   final double? tempMax;
-  final int? pressure;
-  final int? humidity;
-  final int? seaLevel;
-  final int? grndLevel;
+  final num? pressure;
+  final num? humidity;
+  final num? seaLevel;
+  final num? grndLevel;
 
   Main({
     this.temp,
@@ -148,11 +148,11 @@ class Main {
 }
 
 class Sys {
-  final int? type;
-  final int? id;
+  final num? type;
+  final num? id;
   final String? country;
-  final int? sunrise;
-  final int? sunset;
+  final num? sunrise;
+  final num? sunset;
 
   Sys({
     this.type,
@@ -180,7 +180,7 @@ class Sys {
 }
 
 class Weather {
-  final int? id;
+  final num? id;
   final String? main;
   final String? description;
   final String? icon;
@@ -209,7 +209,7 @@ class Weather {
 
 class Wind {
   final double? speed;
-  final int? deg;
+  final num? deg;
 
   Wind({
     this.speed,

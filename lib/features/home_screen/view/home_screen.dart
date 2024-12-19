@@ -32,15 +32,26 @@ class HomeScreen extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              const WeatherCard(
-                location: "Lagos",
-                temp: 33,
-                weatherType: "Rainy",
+              SizedBox(
+                height: 50,
               ),
               FutureBuilder(
                   future: WeatherRepository().fetchCurrentWeather(),
                   builder: (_, snapshot) {
-                    return SizedBox();
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    if (snapshot.data?.error != null) {
+                      return Text(snapshot.data?.error ??
+                          "Emabinu.... No weather data");
+                    }
+                    return WeatherCard(
+                      location: snapshot.data?.model?.name ?? "",
+                      temp: snapshot.data?.model?.main?.temp ?? 0,
+                      weatherType: snapshot
+                              .data?.model?.weather?.firstOrNull?.description ??
+                          "",
+                    );
                   })
             ],
           ),
@@ -71,34 +82,39 @@ class WeatherCard extends StatelessWidget {
       ),
       child: Row(
         children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Current location",
+                  style: baseStyle.copyWith(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.white,
+                  ),
+                ),
+                Text(
+                  location,
+                  style: baseStyle.copyWith(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.white,
+                  ),
+                ),
+                Text(
+                  weatherType,
+                  style: baseStyle.copyWith(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Current location",
-                style: baseStyle.copyWith(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.white,
-                ),
-              ),
-              Text(
-                location,
-                style: baseStyle.copyWith(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.white,
-                ),
-              ),
-              Text(
-                weatherType,
-                style: baseStyle.copyWith(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.white,
-                ),
-              ),
-            ],
+            children: [Text(temp.toString())],
           )
         ],
       ),
