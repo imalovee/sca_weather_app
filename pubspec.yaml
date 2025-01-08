@@ -39,6 +39,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   pretty_dio_logger: ^1.4.0
   location: ^7.0.1
+  permission_handler: ^11.3.1
 
 dev_dependencies:
   flutter_test:

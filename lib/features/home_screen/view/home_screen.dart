@@ -1,10 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 import 'package:weatherapp/Repository/weather_repository.dart';
+import 'package:weatherapp/services/location_services/location_service.dart';
 import 'package:weatherapp/shared/assets.dart';
 import 'package:weatherapp/shared/constant.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final locationService = LocationService();
+  LocationData? currentLocation;
+
+  void setLocation() async {
+    currentLocation = await locationService.getLocation();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setLocation();
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +61,9 @@ class HomeScreen extends StatelessWidget {
                 height: 50,
               ),
               FutureBuilder(
-                  future: WeatherRepository().fetchCurrentWeather(),
+                  future: WeatherRepository().fetchCurrentWeather(
+                      lat: currentLocation?.latitude,
+                      lon: currentLocation?.longitude),
                   builder: (_, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: CircularProgressIndicator());
