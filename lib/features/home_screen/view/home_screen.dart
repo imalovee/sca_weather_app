@@ -14,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final locationService = LocationService();
+
   LocationData? currentLocation;
 
   void setLocation() async {
@@ -79,7 +80,37 @@ class _HomeScreenState extends State<HomeScreen> {
                               .data?.model?.weather?.firstOrNull?.description ??
                           "",
                     );
-                  })
+                  }),
+              Padding(
+                padding: const EdgeInsets.only(top: 30, bottom: 10),
+                child: Text(
+                  "Around the world",
+                  style: baseStyle.copyWith(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+              FutureBuilder(
+                  future: WeatherRepository()
+                      .fetchCurrentWeather(lat: 45.50884, lon: -73.58781),
+                  builder: (_, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    if (snapshot.data?.error != null) {
+                      return Text(snapshot.data?.error ??
+                          "Emabinu.... No weather data");
+                    }
+                    return WeatherCard(
+                      country: snapshot.data?.model?.sys?.country ?? "",
+                      location: snapshot.data?.model?.name ?? "",
+                      temp: snapshot.data?.model?.main?.temp ?? 0,
+                      weatherType: snapshot
+                              .data?.model?.weather?.firstOrNull?.description ??
+                          "",
+                    );
+                  }),
             ],
           ),
         ),
@@ -93,11 +124,13 @@ class WeatherCard extends StatelessWidget {
       {super.key,
       required this.location,
       required this.temp,
-      required this.weatherType});
+      required this.weatherType,
+      this.country});
 
   final String location;
   final String weatherType;
   final num temp;
+  final String? country;
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +147,7 @@ class WeatherCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Current location",
+                  country ?? "Current location",
                   style: baseStyle.copyWith(
                     fontSize: 18,
                     fontWeight: FontWeight.w400,
