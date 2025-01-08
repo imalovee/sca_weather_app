@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:weatherapp/Repository/weather_repository.dart';
+import 'package:weatherapp/models/weather_models.dart';
 import 'package:weatherapp/services/location_services/location_service.dart';
 import 'package:weatherapp/shared/assets.dart';
 import 'package:weatherapp/shared/constant.dart';
@@ -35,8 +36,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
+          bottom: true,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,6 +113,42 @@ class _HomeScreenState extends State<HomeScreen> {
                           "",
                     );
                   }),
+              const SizedBox(height: 12,),
+              FutureBuilder(
+                future: WeatherRepository().fetchCurrentWeather(lat: 39.9042, lon: 116.4074),
+                builder: (BuildContext context,  snapshot) {
+                  if(snapshot.connectionState == ConnectionState.waiting){
+                      return const Center(child: CircularProgressIndicator(),);
+                  }
+                  if(snapshot.data?.error != null){
+                    return Text(snapshot.data?.error ?? "Sorry..No Weather Data");
+                  }
+                  return WeatherCard(
+                      country: snapshot.data?.model?.sys?.country ?? "",
+                      location: snapshot.data?.model?.name?? "",
+                      temp: snapshot.data?.model?.main?.temp ??0,
+                      weatherType: snapshot.data?.model?.weather?.firstOrNull?.description ?? ''
+                  );
+                },
+
+              ),
+              const SizedBox(height: 12,),
+              FutureBuilder(
+                  future: WeatherRepository().fetchCurrentWeather(lat: 55.7558 , lon: 37.6173 ),
+                  builder: (context, snapshot){
+                    if(snapshot.connectionState == ConnectionState.waiting){
+                      return const Center(child: CircularProgressIndicator(),);
+                    }
+                    if(snapshot.data?.error != null){
+                      return Text(snapshot.data?.error ?? "Sorry no Weather data");
+                    }
+                    return WeatherCard(
+                        country: snapshot.data?.model?.sys?.country ?? "",
+                        location: snapshot.data?.model?.name ?? "",
+                        temp: snapshot.data?.model?.main?.temp ?? 0,
+                        weatherType: snapshot.data?.model?.weather?.firstOrNull?.description ?? ""
+                    );
+                  })
             ],
           ),
         ),
