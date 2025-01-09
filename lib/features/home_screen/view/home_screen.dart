@@ -5,6 +5,7 @@ import 'package:weatherapp/models/weather_models.dart';
 import 'package:weatherapp/services/location_services/location_service.dart';
 import 'package:weatherapp/shared/assets.dart';
 import 'package:weatherapp/shared/constant.dart';
+import 'package:weatherapp/shared/routes/route_strings.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final locationService = LocationService();
 
   LocationData? currentLocation;
+ late String? searchedCity;
 
   void setLocation() async {
     currentLocation = await locationService.getLocation();
@@ -46,12 +48,25 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 30,
               ),
-              Text(
-                "Hello Arian,",
-                style: baseStyle.copyWith(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400,
-                ),
+              Row(
+                children: [
+                  Text(
+                    "Hello Arian,",
+                    style: baseStyle.copyWith(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  IconButton(
+                      onPressed: ()async{
+                        searchedCity = await Navigator.pushNamed(
+                            context,
+                           AppRouteStrings.searchScreen
+                        );
+                      },
+                      icon: const Icon(Icons.search, color: AppColors.purple,)
+                  )
+                ],
               ),
               Text(
                 "Discover the weather",

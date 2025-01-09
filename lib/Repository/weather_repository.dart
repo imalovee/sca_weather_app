@@ -16,4 +16,15 @@ class WeatherRepository {
       return (model: null, error: req.error);
     }
   }
+  Future<({WeatherData? model, String? error})> fetchCityWeather({
+    required String cityName
+  })async{
+    final request = await _apiService.get(
+        endpoint: "?q=$cityName&appid=${dotenv.get("api_key")}&units=metric");
+    if(request.data != null){
+      return (model: WeatherData.fromJson(request.data), error: null);
+    }else{
+      return (model: null, error: request.error);
+    }
+  }
 }
