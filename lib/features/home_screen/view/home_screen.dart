@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final locationService = LocationService();
 
   LocationData? currentLocation;
- late String? searchedCity;
+ //late String? searchedCity;
 
   void setLocation() async {
     currentLocation = await locationService.getLocation();
@@ -49,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 30,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     "Hello Arian,",
@@ -57,14 +58,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  IconButton(
-                      onPressed: ()async{
-                        searchedCity = await Navigator.pushNamed(
+                 TextButton(
+                      onPressed: (){
+                         Navigator.pushNamed(
                             context,
                            AppRouteStrings.searchScreen
                         );
                       },
-                      icon: const Icon(Icons.search, color: AppColors.purple,)
+                      child: Row(
+                        children: [
+                           const Icon(Icons.search, color: AppColors.purple,),
+                          Text('Search'),
+                         
+                        ],
+                      )
                   )
                 ],
               ),

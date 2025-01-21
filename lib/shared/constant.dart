@@ -9,4 +9,5 @@ const baseStyle = TextStyle(
 class AppColors {
   static const purple = Color(0xff6151C3);
   static const white = Colors.white;
+  static const Color appRed = Color(0xFFC8102E);
 }

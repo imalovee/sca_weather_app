@@ -13,7 +13,7 @@ class ApiService {
   ApiService._internal() {
     _dio = Dio(BaseOptions(
       baseUrl: dotenv.get("base_url"),
-      connectTimeout: const Duration(seconds: 10),
+      connectTimeout: const Duration(seconds: 30),
       receiveTimeout: const Duration(seconds: 10),
     ));
 
